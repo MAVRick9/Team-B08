@@ -15,8 +15,8 @@ public class Main {
 //
 
     public static void main(String[] args) {
-        final String admin_id = "kuhotel_1234";
-        final String admin_pwd = "kuhotel_5678";
+        final String admin_id = "admin";
+        final String admin_pwd = "admin!!";
 
 
         Scanner scanner = new Scanner(System.in);

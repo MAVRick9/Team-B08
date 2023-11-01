@@ -6,8 +6,7 @@ import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.Scanner;
 
-import static KU_hotel.Main.FileLog;
-import static KU_hotel.Main.date;
+import static KU_hotel.Main.*;
 
 public class RoomInfo {
     private String checkIn, userName, checkOut, PhoneNum;
@@ -18,7 +17,6 @@ public class RoomInfo {
 
     public RoomInfo() {
     }
-
 
     public RoomInfo(User user) {
         this.user = user;
@@ -37,7 +35,6 @@ public class RoomInfo {
 
     ArrayList<RoomInfo> rooms = new ArrayList<RoomInfo>();
     final String filename = "src/KU_hotel/RoomInfo.csv";
-
 
     public String getcheckIn() {
         return checkIn;
@@ -144,19 +141,25 @@ public class RoomInfo {
         int roomNum=0, personNum;
         Scanner sc = new Scanner(System.in);
         while (true) {
-            System.out.println("체크인 날짜를 입력해주세요.(YYYYMMDD)");
+            System.out.println("체크인 날짜를 입력해주세요.(YYYYMMDD) q 입력 시 예약 메뉴로 돌아갑니다.");
             System.out.print(">>");
             checkIn = sc.nextLine();
             checkIn = checkIn.trim();
-            if(checkIn.equals('q')){
+            if(checkIn.equals("q")){
+                System.out.println();
                 return;
             }
-            else if (checkIn.length() != 8) {
+
+           else if (checkIn.length() != 8) {
                 System.out.println("날짜는 YYYYMMDD 형식으로 입력해야합니다.");
                 continue;
             }
             else if (!checkIn.matches("\\d+")) { // date가 숫자가 아닐 시
                 System.out.println("날짜는 YYYYMMDD 형식의 숫자로 입력해야합니다.");
+                continue;
+            }
+            else if (!check_Date(date)) {
+                System.out.println("달력에 존재하는 날짜를 입력해주세요");
                 continue;
             }
 
@@ -175,11 +178,12 @@ public class RoomInfo {
 
         while (true) {
 
-            System.out.println("체크아웃 날짜를 입력해주세요.(YYYYMMDD)");
+            System.out.println("체크아웃 날짜를 입력해주세요.(YYYYMMDD) q 입력 시 예약 메뉴로 돌아갑니다.");
             System.out.print(">>");
             checkOut = sc.nextLine();
             checkOut = checkOut.trim();
-            if(checkOut.equals('q')){
+            if(checkOut.equals("q")){
+                System.out.println();
                 return;
             }
             else if (checkOut.length() != 8) {
@@ -188,6 +192,10 @@ public class RoomInfo {
             }
             else if (!checkOut.matches("\\d+")) { // date가 숫자가 아닐 시
                 System.out.println("날짜는 YYYYMMDD 형식의 숫자로 입력해야합니다.");
+                continue;
+            }
+            else if (!check_Date(date)) {
+                System.out.println("달력에 존재하는 날짜를 입력해주세요");
                 continue;
             }
 
@@ -216,10 +224,11 @@ public class RoomInfo {
 
         boolean invalid_room = true;
         while (invalid_room) {
-            System.out.println("머물고자하는 객실을 선택해주세요.");
+            System.out.println("머물고자하는 객실을 선택해주세요. q 입력 시 예약 메뉴로 돌아갑니다.");
             System.out.print(">>");
             String input = sc.nextLine().trim();
-            if(input.equals('q')){
+            if(input.equals("q")){
+                System.out.println();
                 return;
             }
             if(!input.matches("\\d+")){
@@ -237,14 +246,15 @@ public class RoomInfo {
                     break;
                 }
             }
-            System.out.println("해당 객실은 현재 예약 불가능 상태입니다");
+            System.out.println("해당 객실은 현재 예약 불가능합니다");
 
         }
         while (true) {
-            System.out.println("인원을 선택해주세요.");
+            System.out.println("인원을 선택해주세요. q 입력 시 예약메뉴로 돌아갑니다.");
             System.out.print(">>");
             String input=sc.nextLine();
-            if(input.equals('q')){
+            if(input.equals("q")){
+                System.out.println();
                 return;
             }
             if(!input.matches("\\d+")){
@@ -264,7 +274,7 @@ public class RoomInfo {
             if (choose.equals("Y")) {
                 break;
             }
-            else if (choose.equals("N")||choose.equals('q')) {
+            else if (choose.equals("N")||choose.equals("q")) {
                 return;
             }
             else {
@@ -292,7 +302,7 @@ public class RoomInfo {
     public void check_Reservation() {
         boolean reserve = false;
         for(int i=0;i<rooms.size();i++){
-            if(rooms.get(i).PhoneNum == user.getPhoneNum()){
+            if(rooms.get(i).PhoneNum.equals( user.getPhoneNum())){
                 reserve = true;
             }
         }
@@ -304,7 +314,7 @@ public class RoomInfo {
                 System.out.println("---------------");
                 System.out.println("예약 내역 출력");
                 for (int i=0;i<rooms.size();i++) {
-                    if (rooms.get(i).PhoneNum == user.getPhoneNum()) {
+                    if (rooms.get(i).PhoneNum.equals(user.getPhoneNum())) {
                         System.out.println(rooms.get(i).checkIn + " ~ " + rooms.get(i).checkOut);
                         System.out.println(rooms.get(i).roomNum + "호 " + rooms.get(i).userName);
                         System.out.println("인원 : " + rooms.get(i).personNum + "명");
@@ -327,7 +337,7 @@ public class RoomInfo {
                             if (choose.equals("Y")) {
                                 System.out.println("성공적으로 취소되었습니다.");
                                 for (int i = 0; i < rooms.size(); i++) {
-                                    if (rooms.get(i).PhoneNum == user.getPhoneNum()) {
+                                    if (rooms.get(i).PhoneNum.equals(user.getPhoneNum())) {
                                         rooms.get(i).checkIn = "X";
                                         rooms.get(i).checkOut = "X";
                                         rooms.get(i).personNum = 0;
