@@ -9,7 +9,7 @@ import java.util.Scanner;
 public class User {
     ///
     private String name, id, PhoneNum, Password, ban_Date;
-    final String admin_id = "kuhotel_1234";
+    final String admin_id = "admin";
     private boolean no_Show = false;
     ArrayList<User> users = new ArrayList<User>();
     ArrayList<User> non_users = new ArrayList<User>();
