@@ -12,7 +12,7 @@ import java.util.Scanner;
 public class Main {
 
     static String date="";
-
+//
 
     public static void main(String[] args) {
         final String admin_id = "kuhotel_1234";
