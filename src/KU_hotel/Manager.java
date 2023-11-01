@@ -1,13 +1,16 @@
 package KU_hotel;
 
+import java.io.File;
 import java.util.ArrayList;
 import java.util.Scanner;
 
+import static KU_hotel.Main.FileLog;
 import static KU_hotel.Main.date;
 
 public class Manager {
-    RoomInfo manager = new RoomInfo();
+//
     ArrayList<RoomInfo> rooms = new ArrayList<RoomInfo>();
+    RoomInfo manager = new RoomInfo();
     Scanner sc = new Scanner(System.in);
     //////
     User m_user = new User();
@@ -21,6 +24,9 @@ public class Manager {
         }
         for (int i = 0; i < m_user.users.size(); i++) {
             users.add(m_user.users.get(i));
+        }
+        for(int i=0;i<m_user.non_users.size();i++){
+            users.add(m_user.non_users.get(i));
         }
 
 
@@ -128,9 +134,10 @@ public class Manager {
             System.out.print(">> ");
             String c = sc.nextLine().trim();
             if (c.equals("Y")) {
-                rooms.get(roomidx).setisAccept(true);
+                manager.rooms.get(roomidx).setisAccept(true);
                 manager.toCsv();
                 System.out.println("예약이 승인되었습니다.");
+                FileLog(date, manager.rooms.get(roomidx).getuserName(), 1, "","","",0,0);
                 return;
             } else if (c.equals("X")) {
                 System.out.println("예약이 보류되었습니다.");
@@ -148,18 +155,27 @@ public class Manager {
             System.out.println("예약을 취소하겠습니까? (Y/N)");
             System.out.print(">> ");
             String c = sc.nextLine().trim();
-
-
             if (c.equals("Y")) {
-                rooms.get(roomidx).setcheckIn("X");
-                rooms.get(roomidx).setcheckOut("X");
-                rooms.get(roomidx).setpersonNum(0);
-                rooms.get(roomidx).setPhoneNum("X");
-                rooms.get(roomidx).setuserName("X");
-                rooms.get(roomidx).setisAccept(false);
+                int count =0;
+                for(int i=0; i<rooms.size(); i++)
+                    if(rooms.get(roomidx).getroomNum() == rooms.get(i).getroomNum()) //해당 호실 예약내역이 몇개 있는지 세어줌
+                        count++;
+                FileLog(date, manager.rooms.get(roomidx).getuserName(), 2, "","","",0,0);
+                if(count >= 2){ // 취소하려는 호실이 csv파일에 또다른 예약이 존재할때
+                    manager.rooms.remove(roomidx);
+
+                }else{
+                    manager.rooms.get(roomidx).setcheckIn("X");
+                    manager.rooms.get(roomidx).setcheckOut("X");
+                    manager.rooms.get(roomidx).setpersonNum(0);
+                    manager.rooms.get(roomidx).setPhoneNum("X");
+                    manager.rooms.get(roomidx).setuserName("X");
+                    manager.rooms.get(roomidx).setisAccept(false);
+
+                }
                 manager.toCsv();
                 return;
-            } else if (c.equals("X")) {
+            } else if (c.equals("N")) {
                 System.out.println("예약이 보류되었습니다.");
                 return;
             } else {
