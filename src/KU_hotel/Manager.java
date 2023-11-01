@@ -1,8 +1,10 @@
 package KU_hotel;
 
+import java.io.File;
 import java.util.ArrayList;
 import java.util.Scanner;
 
+import static KU_hotel.Main.FileLog;
 import static KU_hotel.Main.date;
 
 public class Manager {
@@ -135,6 +137,7 @@ public class Manager {
                 manager.rooms.get(roomidx).setisAccept(true);
                 manager.toCsv();
                 System.out.println("예약이 승인되었습니다.");
+                FileLog(date, manager.rooms.get(roomidx).getuserName(), 1, "","","",0,0);
                 return;
             } else if (c.equals("X")) {
                 System.out.println("예약이 보류되었습니다.");
@@ -157,6 +160,7 @@ public class Manager {
                 for(int i=0; i<rooms.size(); i++)
                     if(rooms.get(roomidx).getroomNum() == rooms.get(i).getroomNum()) //해당 호실 예약내역이 몇개 있는지 세어줌
                         count++;
+                FileLog(date, manager.rooms.get(roomidx).getuserName(), 2, "","","",0,0);
                 if(count >= 2){ // 취소하려는 호실이 csv파일에 또다른 예약이 존재할때
                     manager.rooms.remove(roomidx);
 
