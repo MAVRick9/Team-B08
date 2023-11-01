@@ -197,7 +197,7 @@ public class User {
             if (Password.contentEquals("q")) {
                 return null;
             }
-            if (Password.length() < 8 || PhoneNum.length() > 16) {
+            if (Password.length() < 8 || Password.length() > 16) {
                 System.out.println("8~16자의 영어, 숫자, 특수문자를 사용하세요.");
                 continue;
             }
