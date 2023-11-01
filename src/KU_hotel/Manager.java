@@ -23,6 +23,9 @@ public class Manager {
         for (int i = 0; i < m_user.users.size(); i++) {
             users.add(m_user.users.get(i));
         }
+        for(int i=0;i<m_user.non_users.size();i++){
+            users.add(m_user.non_users.get(i));
+        }
 
 
         while (true) {

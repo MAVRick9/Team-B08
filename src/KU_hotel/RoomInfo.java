@@ -236,7 +236,6 @@ public class RoomInfo {
                     break;
                 }
             }
-            System.out.println("해당 객실은 현재 예약 불가능 상태입니다");
 
         }
         while (true) {
@@ -288,7 +287,7 @@ public class RoomInfo {
     public void check_Reservation() {
         boolean reserve = false;
         for(int i=0;i<rooms.size();i++){
-            if(rooms.get(i).PhoneNum == user.getPhoneNum()){
+            if(rooms.get(i).PhoneNum.equals(user.getPhoneNum())){
                 reserve = true;
             }
         }
@@ -300,7 +299,7 @@ public class RoomInfo {
                 System.out.println("---------------");
                 System.out.println("예약 내역 출력");
                 for (int i=0;i<rooms.size();i++) {
-                    if (rooms.get(i).PhoneNum == user.getPhoneNum()) {
+                    if (rooms.get(i).PhoneNum.equals(user.getPhoneNum())) {
                         System.out.println(rooms.get(i).checkIn + " ~ " + rooms.get(i).checkOut);
                         System.out.println(rooms.get(i).roomNum + "호 " + rooms.get(i).userName);
                         System.out.println("인원 : " + rooms.get(i).personNum + "명");
@@ -324,7 +323,7 @@ public class RoomInfo {
                             if (choose.equals("Y")) {
                                 System.out.println("성공적으로 취소되었습니다.");
                                 for (int i = 0; i < rooms.size(); i++) {
-                                    if (rooms.get(i).PhoneNum == user.getPhoneNum()) {
+                                    if (rooms.get(i).PhoneNum.equals(user.getPhoneNum())) {
                                         Main.FileLog(Main.date, rooms.get(i).userName, 12);
                                         rooms.get(i).checkIn = "X";
                                         rooms.get(i).checkOut = "X";
