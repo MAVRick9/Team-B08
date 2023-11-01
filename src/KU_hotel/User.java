@@ -8,6 +8,7 @@ import java.util.Scanner;
 
 public class User
 {
+    ///
     private String name, id, PhoneNum, Password, ban_Date;
     final String admin_id = "kuhotel_1234";
     private boolean no_Show = false;
