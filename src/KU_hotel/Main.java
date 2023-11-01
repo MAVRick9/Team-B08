@@ -128,7 +128,6 @@ public class Main {
                             break;
                         } else {
                             System.out.println("관리자 메뉴로 이동합니다.");
-                            FileLog(date, "Admin",2);
                             Manager m = new Manager();
                             break;
                         }
@@ -160,7 +159,7 @@ public class Main {
             }
         }
     }
-    public static void FileLog(String Date, String User, int motion){
+    public static void FileLog(String Date, String User, int motion, String member, String checkIn, String checkOut, int roomNum, int personNum){
         String motion1 = "";
         try {
             String logfilename ="src/KU_Hotel/KuhotelLog.txt";
@@ -168,42 +167,15 @@ public class Main {
             switch(motion){
                 case 1:
                     motion1 = "예약 신청 승인";
-                    writer.write(Date+","+User+","+motion1+"\n");
+                    writer.write("["+Date+"]["+"Admin"+"]["+User+" "+motion1+"]\n");
                     break;
                 case 2:
-                    motion1 = "사용자로그인";
-                    writer.write(Date+","+User+","+motion1+"\n");
+                    motion1 = "예약 신청 취소";
+                    writer.write("["+Date+"]["+"Admin"+"]["+User+" "+motion1+"]\n");
                     break;
                 case 3:
-                    motion1 = "호텔로그인";
-                    writer.write(Date+","+User+","+motion1+"\n");
-                    break;
-                case 4:
-                    motion1 = "회원로그인";
-                    break;
-                case 5:
-                    motion1 = "비회원로그인";
-                    break;
-                case 6:
-                    motion1 = "예약신청";
-                    break;
-                case 7:
-                    motion1 = "예약확인";
-                    break;
-                case 8:
-                    motion1 = "로그아웃";
-                    break;
-                case 9:
-                    motion1 = "예약신청확인";
-                    break;
-                case 10:
-                    motion1 = "예약현황확인";
-                    break;
-                case 11:
-                    motion1 = "관리자 메뉴";
-                    break;
-                case 12:
-                    motion1 = "예약 취소";
+                    motion1 = "예약 신청";
+                    writer.write("["+Date+"]["+User+"/"+member+"]["+checkIn+"-"+checkOut+"/"+roomNum+"/"+personNum+"]\n");
                     break;
                 default:
                     motion1 = "NULL";
