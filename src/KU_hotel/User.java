@@ -6,14 +6,15 @@ import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.Scanner;
 
-public class User
-{
+public class User {
+    ///
     private String name, id, PhoneNum, Password, ban_Date;
     final String admin_id = "kuhotel_1234";
     private boolean no_Show = false;
     ArrayList<User> users = new ArrayList<User>();
     ArrayList<User> non_users = new ArrayList<User>();
     final String filename = "src/KU_hotel/UserInfo.csv";
+
     public User(String name, String id, String PhoneNum, String Password, boolean no_Show, String ban_Date) {
         this.name = name;
         this.id = id;
@@ -34,35 +35,89 @@ public class User
     public boolean getNo_Show() {
         return no_Show;
     }
+
     public void setNo_Show(boolean no_Show) {
         this.no_Show = no_Show;
     }
-    public String getName() {return name;}
-    public String getId() {return id;}
-    public String getPhoneNum() {return PhoneNum;}
-    public String getPassword() {return Password;}
 
-    public void setName(String name){this.name = name;}
-    public void setId(String id){this.id = id;}
-    public void setPhoneNum(String PhoneNum){this.PhoneNum = PhoneNum;}
-    public void setPassword(String Password){this.Password = Password;}
+    public String getName() {
+        return name;
+    }
+
+    public String getId() {
+        return id;
+    }
+
+    public String getPhoneNum() {
+        return PhoneNum;
+    }
+
+    public String getPassword() {
+        return Password;
+    }
+
+    public void setName(String name) {
+        this.name = name;
+    }
+
+    public void setId(String id) {
+        this.id = id;
+    }
+
+    public void setPhoneNum(String PhoneNum) {
+        this.PhoneNum = PhoneNum;
+    }
+
+    public void setPassword(String Password) {
+        this.Password = Password;
+    }
 
     public User() {
         fromCsv();
     }
+
+    public User(String date) {
+        fromCsv();
+        for (int i = 0; i < users.size(); i++) {
+            if (users.get(i).getBan_Date().equals("X")) {
+                continue;
+            }
+            int user_ban_Date = Integer.parseInt(users.get(i).getBan_Date());
+            int nowDate = Integer.parseInt(date);
+            if (user_ban_Date < nowDate) {
+                users.get(i).setNo_Show(false);
+            } else {
+                users.get(i).setNo_Show(true);
+            }
+        }
+        for (int j = 0; j < non_users.size(); j++) {
+            if (non_users.get(j).getBan_Date().equals("X")) {
+                continue;
+            }
+            int nonuser_ban_Date = Integer.parseInt(non_users.get(j).getBan_Date());
+            int nowDate = Integer.parseInt(date);
+            if (nonuser_ban_Date < nowDate) {
+                non_users.get(j).setNo_Show(false);
+            } else {
+                non_users.get(j).setNo_Show(true);
+            }
+        }
+        toCsv();
+    }
+
     public User register() {        //회원가입
         String name, id, PhoneNum, Password;
         Scanner sc = new Scanner(System.in);
         System.out.println("<회원 가입>");
         System.out.println("메인 메뉴로 돌아가려면 'q'를 누르세요.\n");
-        while(true){                   //**********이름 등록**********//
+        while (true) {                   //**********이름 등록**********//
             System.out.print("이 름 : ");
             name = sc.nextLine();
             name = name.trim();
-            if(name.contentEquals("q")){
+            if (name.contentEquals("q")) {
                 return null;
             }
-            if(name.length()<1 || name.length()>15){
+            if (name.length() < 1 || name.length() > 15) {
                 System.out.println("이름의 길이는 1이상 15이하여야 합니다!");
                 continue;
             }
@@ -70,34 +125,30 @@ public class User
                 if (name.matches(".*[a-zA-Z]+.*")) {
                     System.out.println("영어를 포함한 이름은 입력할 수 없습니다.");
                     continue;
-                }
-                else if(name.contains(" ")||name.contains("\t")) {
+                } else if (name.contains(" ") || name.contains("\t")) {
                     System.out.println("공백은 입력할 수 없습니다.");
                     continue;
-                }
-                else if(name.matches(".*\\d+.*")){
+                } else if (name.matches(".*\\d+.*")) {
                     System.out.println("숫자는 입력할 수 없습니다.");
                     continue;
-                }
-                else{
+                } else {
                     System.out.println("올바른 형식을 입력하세요!");
                     continue;
                 }
-            }
-            else{
+            } else {
                 break;
             }
 
         }
 
-        while(true) {                   //**********아이디 등록**********//
+        while (true) {                   //**********아이디 등록**********//
             System.out.print("아이디 : ");
             id = sc.nextLine();
             id = id.trim();
-            if(id.contentEquals("q")){
+            if (id.contentEquals("q")) {
                 return null;
             }
-            if (id.length() < 4 || id.length() > 10){
+            if (id.length() < 4 || id.length() > 10) {
                 System.out.println("4~10자 영문, 숫자를 사용하세요.");
                 continue;
             }
@@ -105,11 +156,11 @@ public class User
                 System.out.println("공백은 포함될 수 없습니다.");
                 continue;
             }
-            if(!id.matches("[a-zA-Z0-9]*")) {
+            if (!id.matches("[a-zA-Z0-9]*")) {
                 System.out.println("영어와 숫자만 사용해주세요.");
                 continue;
             }
-            if(id.equals(admin_id)){
+            if (id.equals(admin_id)) {
                 System.out.println("관리자 아이디는 사용할 수 없습니다.");
                 continue;
             }
@@ -117,40 +168,40 @@ public class User
             break;
         }
 
-        while(true) {                   //**********전화번호 등록**********//
+        while (true) {                   //**********전화번호 등록**********//
             System.out.print("전화번호 : ");
             PhoneNum = sc.nextLine();
             PhoneNum = PhoneNum.trim();
-            if(PhoneNum.contentEquals("q")){
+            if (PhoneNum.contentEquals("q")) {
                 return null;
             }
-            if(PhoneNum.length() < 1 || PhoneNum.length() > 15) {
+            if (PhoneNum.length() < 1 || PhoneNum.length() > 15) {
                 System.out.println("1~15자의 숫자만 사용하세요.");
                 continue;
             }
-            if(PhoneNum.contains(" ")){
+            if (PhoneNum.contains(" ")) {
                 System.out.println("공백은 포함될 수 없습니다.");
                 continue;
             }
-            if(!PhoneNum.matches("[0-9]*")) {
+            if (!PhoneNum.matches("[0-9]*")) {
                 System.out.println("숫자만 사용해주세요.");
                 continue;
             }
 
             break;
         }
-        while(true) {                   //**********비밀번호 등록**********//
+        while (true) {                   //**********비밀번호 등록**********//
             System.out.print("비밀번호 : ");
             Password = sc.nextLine();
             Password = Password.trim();
-            if(Password.contentEquals("q")){
+            if (Password.contentEquals("q")) {
                 return null;
             }
-            if(Password.length() < 8 || PhoneNum.length() > 16){
+            if (Password.length() < 8 || PhoneNum.length() > 16) {
                 System.out.println("8~16자의 영어, 숫자, 특수문자를 사용하세요.");
                 continue;
             }
-            if(Password.contains(" ")){
+            if (Password.contains(" ")) {
                 System.out.println("공백은 포함될 수 없습니다.");
                 continue;
             }
@@ -160,25 +211,25 @@ public class User
             }
             break;
         }
-        if(!isUniqueID(id) && !isUniquePhoneNum(PhoneNum)){
+        if (!isUniqueID(id) && !isUniquePhoneNum(PhoneNum)) {
             System.out.println("이미 등록된 전화번호, 아이디입니다.");
             System.out.println("아무 키를 누르면 메인 메뉴로 돌아갑니다.");
             sc.nextLine();
             return null;
         }
-        if(!isUniqueID(id)) {
+        if (!isUniqueID(id)) {
             System.out.println("이미 등록된 아이디입니다.");
             System.out.println("아무 키를 누르면 메인 메뉴로 돌아갑니다.");
             sc.nextLine();
             return null;
         }
-        if(!isUniquePhoneNum(PhoneNum)) {
+        if (!isUniquePhoneNum(PhoneNum)) {
             System.out.println("이미 등록된 전화번호입니다.");
             System.out.println("아무 키를 누르면 메인 메뉴로 돌아갑니다.");
             sc.nextLine();
             return null;
         }
-        User newuser = new User(name, id, PhoneNum, Password, false, "00000000");
+        User newuser = new User(name, id, PhoneNum, Password, false, "X");
         System.out.println("회원가입에 성공하였습니다.\n");
         users.add(newuser);
         toCsv();
@@ -188,13 +239,13 @@ public class User
     }
 
     private boolean isUniquePhoneNum(String PhoneNum) {
-        for(User user : users) {
-            if(user.getPhoneNum().equals(PhoneNum)){
+        for (User user : users) {
+            if (user.getPhoneNum().equals(PhoneNum)) {
                 return false;
             }
         }
-        for(User nuser : non_users) {
-            if(nuser.getPhoneNum().equals(PhoneNum)){
+        for (User nuser : non_users) {
+            if (nuser.getPhoneNum().equals(PhoneNum)) {
                 return false;
             }
         }
@@ -202,8 +253,8 @@ public class User
     }
 
     private boolean isUniqueID(String id) {
-        for(User user : users) {
-            if(user.getId().equals(id)) {
+        for (User user : users) {
+            if (user.getId().equals(id)) {
                 return false;
             }
         }
@@ -215,22 +266,22 @@ public class User
         String uid;
         String upwd;
         System.out.println("사용자 로그인 메뉴로 돌아가려면 'q'를 누르세요.\n");
-        while(true) {
+        while (true) {
             System.out.print("아이디 : ");
             uid = sc.nextLine();
             uid = uid.trim();
-            if(uid.equals("q")){
+            if (uid.equals("q")) {
                 return false;
             }
             System.out.print("비밀번호 : ");
             upwd = sc.nextLine();
             upwd = upwd.trim();
-            if(upwd.equals("q")){
+            if (upwd.equals("q")) {
                 return false;
             }
-            for(User u : users) {       //회원 정보 일치 체크!
-                if(u.getId().equals(uid))
-                    if(u.getPassword().equals(upwd)){
+            for (User u : users) {       //회원 정보 일치 체크!
+                if (u.getId().equals(uid))
+                    if (u.getPassword().equals(upwd)) {
                         System.out.println("로그인 성공!");
                         System.out.println("아무 키를 누르면 예약 메뉴로 돌아갑니다.");
                         sc.nextLine();
@@ -248,7 +299,7 @@ public class User
         String uname;
         String uphonenum;
         boolean login_success = false;
-        while(!login_success) {
+        while (!login_success) {
             System.out.println("사용자 로그인 메뉴로 돌아가려면 'q'를 누르세요.\n");
             while (true) {                   //**********이름 등록**********//
                 System.out.print("이 름 : ");
@@ -309,11 +360,11 @@ public class User
                 sc.nextLine();
                 return true;
             }
-            while(true) {
+            while (true) {
                 System.out.print("입력한 정보가 정확합니까? (Y/N)\n>> ");
                 String c = sc.nextLine().trim();
                 if (c.equals("Y")) {
-                    User newnuser = new User(uname, "X", uphonenum, "X", false, "00000000");
+                    User newnuser = new User(uname, "X", uphonenum, "X", false, "X");
                     System.out.println("비회원 로그인 성공!.\n");
                     non_users.add(newnuser);
                     toCsv();
@@ -323,12 +374,10 @@ public class User
                     r.reservation_Menu();
                     login_success = true;
                     return login_success;
-                }
-                else if (c.equals("N")) {
+                } else if (c.equals("N")) {
                     login_success = false;
                     break;
-                }
-                else{
+                } else {
                     System.out.println("올바른 형식을 입력해주세요");
                 }
             }
@@ -338,16 +387,16 @@ public class User
     }
 
     public void toCsv() {
-        try{
+        try {
             BufferedWriter writer = new BufferedWriter(new FileWriter(filename));
-            for(User u : users) {
-                writer.write(u.getName()+","+u.getId()+","+u.getPhoneNum()+","+u.getPassword()+","+u.getNo_Show()+","+u.getBan_Date()+"\n");
+            for (User u : users) {
+                writer.write(u.getName() + "," + u.getId() + "," + u.getPhoneNum() + "," + u.getPassword() + "," + u.getNo_Show() + "," + u.getBan_Date() + "\n");
             }
-            for(User u : non_users) {
-                writer.write(u.getName()+","+u.getId()+","+u.getPhoneNum()+","+u.getPassword()+","+u.getNo_Show()+","+u.getBan_Date()+"\n");
+            for (User u : non_users) {
+                writer.write(u.getName() + "," + u.getId() + "," + u.getPhoneNum() + "," + u.getPassword() + "," + u.getNo_Show() + "," + u.getBan_Date() + "\n");
             }
             writer.close();
-        } catch(IOException e){
+        } catch (IOException e) {
             e.printStackTrace();
         }
     }
@@ -355,28 +404,28 @@ public class User
     public void fromCsv() {
         BufferedReader br;
 
-        try(FileReader fileReader = new FileReader(filename)){
+        try (FileReader fileReader = new FileReader(filename)) {
             br = Files.newBufferedReader(Paths.get(filename));
             String line = "";
 
-            while((line = br.readLine()) != null){
-                if(line.isEmpty()){
+            while ((line = br.readLine()) != null) {
+                if (line.isEmpty()) {
                     break;
                 }
                 String[] array = line.split(",");
                 User user = new User(array[0], array[1], array[2], array[3], Boolean.parseBoolean(array[4]), array[5]);
-                if(!array[1].equals("X")) {
+                if (!array[1].equals("X")) {
                     users.add(user);
-                }else{
+                } else {
                     non_users.add(user);
                 }
             }
             fileReader.close();
-        }catch(FileNotFoundException e){
+        } catch (FileNotFoundException e) {
             e.printStackTrace();
             System.out.println("회원 정보 파일이 없습니다.\n프로그램을 종료합니다.");
             System.exit(0);
-        }catch(Exception e){
+        } catch (Exception e) {
             e.printStackTrace();
             System.out.println("회원 정보 파일이 없습니다.\n프로그램을 종료합니다.");
             System.exit(0);

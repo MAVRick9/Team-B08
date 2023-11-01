@@ -12,7 +12,7 @@ import java.util.Scanner;
 public class Main {
 
     static String date="";
-
+//
 
     public static void main(String[] args) {
         final String admin_id = "kuhotel_1234";
@@ -43,7 +43,7 @@ public class Main {
         }
 
         while (true) {
-            User user = new User();
+            User user = new User(date);
             System.out.println("<메인 메뉴>");
             System.out.println("---------------");
             System.out.println("1) 회원가입");
