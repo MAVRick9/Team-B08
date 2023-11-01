@@ -1,7 +1,12 @@
 package KU_hotel;
 
 import java.io.File;
+import java.text.DateFormat;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.Date;
 import java.util.Scanner;
 
 import static KU_hotel.Main.FileLog;
@@ -269,8 +274,18 @@ public class Manager {
                 tempuser.get(index).setNo_Show(true);
                 String ban_date = "";
                 for (int m = 0; m < rooms.size(); m++) {
-                    if (tempuser.get(index).getPhoneNum().equals(rooms.get(m).getPhoneNum())) {
-                        ban_date = String.valueOf(Integer.parseInt(rooms.get(m).getcheckOut()) + 7);
+                    if (tempuser.get(index).getPhoneNum().equals(rooms.get(m).getPhoneNum())) { //노쇼처리 날짜 계산
+                        DateFormat dateFormat = new SimpleDateFormat("yyyyMMdd");
+                        Date date = null;
+                        try{
+                            date = dateFormat.parse(rooms.get(m).getcheckOut());
+                        }catch(ParseException e){
+                            e.printStackTrace();
+                        }
+                        Calendar cal = Calendar.getInstance();
+                        cal.setTime(date);;
+                        cal.add(Calendar.DATE, 7);
+                        ban_date = dateFormat.format(cal.getTime());
                     }
                 }
                 tempuser.get(index).setBan_Date(ban_date);
