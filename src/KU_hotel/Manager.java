@@ -85,9 +85,14 @@ public class Manager {
         }
         while (true) {
             try {
-                System.out.println("처리하고자 하는 예약 내역을 입력하세요.");
+                System.out.println("처리하고자 하는 예약 내역을 입력하세요. q 입력 시 관리자 메뉴로 돌아갑니다");
                 System.out.print(">> ");
-                int i = Integer.parseInt(sc.nextLine().trim());
+                String input=sc.nextLine().trim();
+                if(input.equals("q")){
+                    System.out.println();
+                    return;
+                }
+                int i = Integer.parseInt(input);
 
                 edit_roomInfo(temprooms.get(i - 1).getroomNum());
                 return;
@@ -139,7 +144,7 @@ public class Manager {
                 System.out.println("예약이 승인되었습니다.");
                 FileLog(date, manager.rooms.get(roomidx).getuserName(), 1, "","","",0,0);
                 return;
-            } else if (c.equals("X")) {
+            } else if (c.equals("N")) {
                 System.out.println("예약이 보류되었습니다.");
                 return;
             } else {
