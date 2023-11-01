@@ -6,8 +6,7 @@ import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.Scanner;
 
-import static KU_hotel.Main.FileLog;
-import static KU_hotel.Main.date;
+import static KU_hotel.Main.*;
 
 public class RoomInfo {
     private String checkIn, userName, checkOut, PhoneNum;
@@ -159,6 +158,10 @@ public class RoomInfo {
                 System.out.println("날짜는 YYYYMMDD 형식의 숫자로 입력해야합니다.");
                 continue;
             }
+            else if (!check_Date(date)) {
+                System.out.println("달력에 존재하는 날짜를 입력해주세요");
+                continue;
+            }
 
             int num1 = Integer.parseInt(Main.date);
             int num2 = Integer.parseInt(checkIn);
@@ -189,6 +192,10 @@ public class RoomInfo {
             }
             else if (!checkOut.matches("\\d+")) { // date가 숫자가 아닐 시
                 System.out.println("날짜는 YYYYMMDD 형식의 숫자로 입력해야합니다.");
+                continue;
+            }
+            else if (!check_Date(date)) {
+                System.out.println("달력에 존재하는 날짜를 입력해주세요");
                 continue;
             }
 

@@ -230,7 +230,6 @@ public class User {
         }
         User newuser = new User(name, PhoneNum, id, Password, false, "X");
         System.out.println("회원가입에 성공하였습니다.\n");
-        Main.FileLog(Main.date, name, 1);
         users.add(newuser);
         toCsv();
         System.out.println("아무 키를 누르면 메인 메뉴로 이동합니다.");
@@ -284,7 +283,6 @@ public class User {
                     if(u.getPassword().equals(upwd)){
                         System.out.println("로그인 성공!");
                         System.out.println("아무 키를 누르면 예약 메뉴로 돌아갑니다.");
-                        Main.FileLog(Main.date, u.getName(), 2);
                         sc.nextLine();
                         RoomInfo r = new RoomInfo(u);
                         r.reservation_Menu();
@@ -367,7 +365,6 @@ public class User {
                 if (c.equals("Y")) {
                     User newnuser = new User(uname, uphonenum, "X", "X", false, "X");
                     System.out.println("비회원 로그인 성공!.\n");
-                    Main.FileLog(Main.date, uname, 5);
                     non_users.add(newnuser);
                     toCsv();
                     System.out.println("아무 키를 누르면 예약 메뉴로 이동합니다.");
