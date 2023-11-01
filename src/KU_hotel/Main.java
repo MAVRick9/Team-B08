@@ -33,12 +33,10 @@ public class Main {
             } else if (!date.matches("\\d+")) { // date가 숫자가 아닐 시
                 System.out.println("날짜는 YYYYMMDD 형식의 숫자로 입력해야합니다.");
                 continue;
-            }
-            else if(!check_Date(date)){
+            } else if (!check_Date(date)) {
                 System.out.println("달력에 존재하는 날짜를 입력해주세요");
                 continue;
-            }
-            else {
+            } else {
                 break;
             }
         }
@@ -160,7 +158,8 @@ public class Main {
             }
         }
     }
-    public static void FileLog(String Date, String User, int motion, String member, String checkIn, String checkOut, int roomNum, int personNum){
+
+    public static void FileLog(String Date, String User, int motion, String member, String checkIn, String checkOut, int roomNum, int personNum) {
         String motion1 = "";
         try {
             String logfilename = "src/KU_Hotel/KuhotelLog.txt";
@@ -168,15 +167,15 @@ public class Main {
             switch (motion) {
                 case 1:
                     motion1 = "예약 신청 승인";
-                    writer.write("["+Date+"]["+"Admin"+"]["+User+" "+motion1+"]\n");
+                    writer.write("[" + Date + "][" + "Admin" + "][" + User + " " + motion1 + "]\n");
                     break;
                 case 2:
                     motion1 = "예약 신청 취소";
-                    writer.write("["+Date+"]["+"Admin"+"]["+User+" "+motion1+"]\n");
+                    writer.write("[" + Date + "][" + "Admin" + "][" + User + " " + motion1 + "]\n");
                     break;
                 case 3:
                     motion1 = "예약 신청";
-                    writer.write("["+Date+"]["+User+"/"+member+"]["+checkIn+"-"+checkOut+"/"+roomNum+"/"+personNum+"]\n");
+                    writer.write("[" + Date + "][" + User + "/" + member + "][" + checkIn + "-" + checkOut + "/" + roomNum + "/" + personNum + "]\n");
                     break;
                 default:
                     motion1 = "NULL";
@@ -185,7 +184,7 @@ public class Main {
 
             writer.flush();
             writer.close();
-        }catch (IOException e){
+        } catch (IOException e) {
             System.out.println("Log 파일 쓰기 실패\n");
             System.exit(0);
         }
@@ -222,10 +221,10 @@ public class Main {
                     else
                         ret = false;       //1에서 28일 사이가 아닌 경우
                 }
-            }else{
+            } else {
                 ret = false;      //월이 1에서 12가 아닌 경우
             }
-        }else{
+        } else {
             ret = false;    //년도가 0000년에서 9999년 사이가 아닌 경우
         }
         return ret;
