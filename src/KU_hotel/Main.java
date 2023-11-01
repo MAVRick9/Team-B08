@@ -175,7 +175,7 @@ public class Main {
                     break;
                 case 3:
                     motion1 = "예약 신청";
-                    writer.write("["+Date+"]["+User+"/"+member+"]["+checkIn+"-"+checkOut+"/"+roomNum+"/"+personNum+"]\n");
+                    writer.write("["+Date+"]["+User+"/"+member+"]["+checkIn+"-"+checkOut+"/"+roomNum+"호/"+personNum+"명]\n");
                     break;
                 default:
                     motion1 = "NULL";

@@ -6,6 +6,7 @@ import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.Scanner;
 
+import static KU_hotel.Main.FileLog;
 import static KU_hotel.Main.date;
 
 public class RoomInfo {
@@ -278,7 +279,11 @@ public class RoomInfo {
                 rooms.get(i).personNum = personNum;
                 rooms.get(i).PhoneNum = user.getPhoneNum();
                 rooms.get(i).userName = user.getName();
-               }
+                if(user.getId().equals("X"))
+                    FileLog(date, rooms.get(i).userName, 3, "NM", rooms.get(i).checkIn, rooms.get(i).checkOut, rooms.get(i).roomNum, rooms.get(i).personNum);
+                else
+                    FileLog(date, rooms.get(i).userName, 3, "M", rooms.get(i).checkIn, rooms.get(i).checkOut, rooms.get(i).roomNum, rooms.get(i).personNum);
+            }
         }
         toCsv();
     }
