@@ -6,7 +6,7 @@ import java.util.Scanner;
 import static KU_hotel.Main.date;
 
 public class Manager {
-
+//
     ArrayList<RoomInfo> rooms = new ArrayList<RoomInfo>();
     RoomInfo manager = new RoomInfo();
     Scanner sc = new Scanner(System.in);
