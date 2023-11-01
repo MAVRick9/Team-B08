@@ -11,14 +11,12 @@ import java.util.Scanner;
 // then press Enter. You can now see whitespace characters in your code.
 public class Main {
 
-    static String date="";
+    static String date = "";
 //
 
     public static void main(String[] args) {
-        final String admin_id = "admin";
-        final String admin_pwd = "admin!!";
-
-
+        final String admin_id = "kuhotel_1234";
+        final String admin_pwd = "kuhotel_5678";
 
 
         Scanner scanner = new Scanner(System.in);
@@ -32,12 +30,13 @@ public class Main {
             if (date.length() != 8) {
                 System.out.println("날짜는 YYYYMMDD 형식으로 입력해야합니다.");
                 continue;
-            }
-            else if (!date.matches("\\d+")) { // date가 숫자가 아닐 시
+            } else if (!date.matches("\\d+")) { // date가 숫자가 아닐 시
                 System.out.println("날짜는 YYYYMMDD 형식의 숫자로 입력해야합니다.");
                 continue;
-            }
-            else {
+            } else if (!check_Date(date)) {
+                System.out.println("달력에 존재하는 날짜를 입력해주세요");
+                continue;
+            } else {
                 break;
             }
         }
@@ -63,7 +62,7 @@ public class Main {
                         user.register();
                         break;
                     case "2":
-                        while(true) {
+                        while (true) {
                             System.out.println("<사용자 로그인 메뉴>");
                             System.out.println("---------------");
                             System.out.println("1) 회원 로그인");
@@ -92,10 +91,10 @@ public class Main {
                                     default:
                                         System.out.println("1~3 사이 숫자를 입력해주세요.");
                                 }
-                                if(go_to_main){
+                                if (go_to_main) {
                                     break;
                                 }
-                            }catch(NumberFormatException e){
+                            } catch (NumberFormatException e) {
                                 System.out.println("올바른 형식을 입력해주세요.");
                             }
                         }
@@ -159,23 +158,24 @@ public class Main {
             }
         }
     }
-    public static void FileLog(String Date, String User, int motion, String member, String checkIn, String checkOut, int roomNum, int personNum){
+
+    public static void FileLog(String Date, String User, int motion, String member, String checkIn, String checkOut, int roomNum, int personNum) {
         String motion1 = "";
         try {
-            String logfilename ="src/KU_Hotel/KuhotelLog.txt";
+            String logfilename = "src/KU_Hotel/KuhotelLog.txt";
             BufferedWriter writer = new BufferedWriter(new FileWriter(logfilename, true));
-            switch(motion){
+            switch (motion) {
                 case 1:
                     motion1 = "예약 신청 승인";
-                    writer.write("["+Date+"]["+"Admin"+"]["+User+" "+motion1+"]\n");
+                    writer.write("[" + Date + "][" + "Admin" + "][" + User + " " + motion1 + "]\n");
                     break;
                 case 2:
                     motion1 = "예약 신청 취소";
-                    writer.write("["+Date+"]["+"Admin"+"]["+User+" "+motion1+"]\n");
+                    writer.write("[" + Date + "][" + "Admin" + "][" + User + " " + motion1 + "]\n");
                     break;
                 case 3:
                     motion1 = "예약 신청";
-                    writer.write("["+Date+"]["+User+"/"+member+"]["+checkIn+"-"+checkOut+"/"+roomNum+"/"+personNum+"]\n");
+                    writer.write("[" + Date + "][" + User + "/" + member + "][" + checkIn + "-" + checkOut + "/" + roomNum + "/" + personNum + "]\n");
                     break;
                 default:
                     motion1 = "NULL";
@@ -184,9 +184,50 @@ public class Main {
 
             writer.flush();
             writer.close();
-        }catch (IOException e){
+        } catch (IOException e) {
             System.out.println("Log 파일 쓰기 실패\n");
             System.exit(0);
         }
     }
+
+    public static boolean check_Date(String date) {
+        int year = Integer.parseInt(date.substring(0, 4));
+        int month = Integer.parseInt(date.substring(4, 6));
+        int day = Integer.parseInt(date.substring(6, 8));
+
+        boolean ret = false;
+
+        if (year >= 0 && year <= 9999) {  //년도가 0000년 부터 9999년 사이인 경우
+            if (month == 1 || month == 3 || month == 5 || month == 7 || month == 8 || month == 10 || month == 12) {
+                if (day >= 1 && day <= 31)    //31일 까지 있는 달에 대한 처리
+                    ret = true;
+                else
+                    ret = false;              //1에서 31 사이가 아닌 경우
+            } else if (month == 4 || month == 6 || month == 9 || month == 11) {
+                if (day >= 1 && day <= 30)    //30일까지 있는 달에 대한 처리
+                    ret = true;
+                else {
+                    ret = false;              //1에서 30일 사이가 아닌 경우
+                }
+            } else if (month == 2) {
+                if (year % 4 == 0 && year % 100 != 0 || year % 400 == 0) {    //윤년인 경우
+                    if (day >= 1 && day <= 29)
+                        ret = true;
+                    else
+                        ret = false;       //1에서 29일 사이가 아닌 경우
+                } else {
+                    if (day >= 1 && day <= 28)
+                        ret = true;
+                    else
+                        ret = false;       //1에서 28일 사이가 아닌 경우
+                }
+            } else {
+                ret = false;      //월이 1에서 12가 아닌 경우
+            }
+        } else {
+            ret = false;    //년도가 0000년에서 9999년 사이가 아닌 경우
+        }
+        return ret;
+    }
+
 }

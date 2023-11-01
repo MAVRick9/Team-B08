@@ -35,7 +35,6 @@ public class User {
     public boolean getNo_Show() {
         return no_Show;
     }
-
     public void setNo_Show(boolean no_Show) {
         this.no_Show = no_Show;
     }
@@ -190,18 +189,18 @@ public class User {
 
             break;
         }
-        while (true) {                   //**********비밀번호 등록**********//
+        while(true) {                   //**********비밀번호 등록**********//
             System.out.print("비밀번호 : ");
             Password = sc.nextLine();
             Password = Password.trim();
-            if (Password.contentEquals("q")) {
+            if(Password.contentEquals("q")){
                 return null;
             }
-            if (Password.length() < 8 || PhoneNum.length() > 16) {
+            if(Password.length() < 8 || PhoneNum.length() > 16){
                 System.out.println("8~16자의 영어, 숫자, 특수문자를 사용하세요.");
                 continue;
             }
-            if (Password.contains(" ")) {
+            if(Password.contains(" ")){
                 System.out.println("공백은 포함될 수 없습니다.");
                 continue;
             }
@@ -211,19 +210,19 @@ public class User {
             }
             break;
         }
-        if (!isUniqueID(id) && !isUniquePhoneNum(PhoneNum)) {
+        if(!isUniqueID(id) && !isUniquePhoneNum(PhoneNum)){
             System.out.println("이미 등록된 전화번호, 아이디입니다.");
             System.out.println("아무 키를 누르면 메인 메뉴로 돌아갑니다.");
             sc.nextLine();
             return null;
         }
-        if (!isUniqueID(id)) {
+        if(!isUniqueID(id)) {
             System.out.println("이미 등록된 아이디입니다.");
             System.out.println("아무 키를 누르면 메인 메뉴로 돌아갑니다.");
             sc.nextLine();
             return null;
         }
-        if (!isUniquePhoneNum(PhoneNum)) {
+        if(!isUniquePhoneNum(PhoneNum)) {
             System.out.println("이미 등록된 전화번호입니다.");
             System.out.println("아무 키를 누르면 메인 메뉴로 돌아갑니다.");
             sc.nextLine();
@@ -231,6 +230,7 @@ public class User {
         }
         User newuser = new User(name, PhoneNum, id, Password, false, "X");
         System.out.println("회원가입에 성공하였습니다.\n");
+        Main.FileLog(Main.date, name, 1);
         users.add(newuser);
         toCsv();
         System.out.println("아무 키를 누르면 메인 메뉴로 이동합니다.");
@@ -239,13 +239,13 @@ public class User {
     }
 
     private boolean isUniquePhoneNum(String PhoneNum) {
-        for (User user : users) {
-            if (user.getPhoneNum().equals(PhoneNum)) {
+        for(User user : users) {
+            if(user.getPhoneNum().equals(PhoneNum)){
                 return false;
             }
         }
-        for (User nuser : non_users) {
-            if (nuser.getPhoneNum().equals(PhoneNum)) {
+        for(User nuser : non_users) {
+            if(nuser.getPhoneNum().equals(PhoneNum)){
                 return false;
             }
         }
@@ -253,8 +253,8 @@ public class User {
     }
 
     private boolean isUniqueID(String id) {
-        for (User user : users) {
-            if (user.getId().equals(id)) {
+        for(User user : users) {
+            if(user.getId().equals(id)) {
                 return false;
             }
         }
@@ -266,24 +266,25 @@ public class User {
         String uid;
         String upwd;
         System.out.println("사용자 로그인 메뉴로 돌아가려면 'q'를 누르세요.\n");
-        while (true) {
+        while(true) {
             System.out.print("아이디 : ");
             uid = sc.nextLine();
             uid = uid.trim();
-            if (uid.equals("q")) {
+            if(uid.equals("q")){
                 return false;
             }
             System.out.print("비밀번호 : ");
             upwd = sc.nextLine();
             upwd = upwd.trim();
-            if (upwd.equals("q")) {
+            if(upwd.equals("q")){
                 return false;
             }
-            for (User u : users) {       //회원 정보 일치 체크!
-                if (u.getId().equals(uid))
-                    if (u.getPassword().equals(upwd)) {
+            for(User u : users) {       //회원 정보 일치 체크!
+                if(u.getId().equals(uid))
+                    if(u.getPassword().equals(upwd)){
                         System.out.println("로그인 성공!");
                         System.out.println("아무 키를 누르면 예약 메뉴로 돌아갑니다.");
+                        Main.FileLog(Main.date, u.getName(), 2);
                         sc.nextLine();
                         RoomInfo r = new RoomInfo(u);
                         r.reservation_Menu();
@@ -299,7 +300,7 @@ public class User {
         String uname;
         String uphonenum;
         boolean login_success = false;
-        while (!login_success) {
+        while(!login_success) {
             System.out.println("사용자 로그인 메뉴로 돌아가려면 'q'를 누르세요.\n");
             while (true) {                   //**********이름 등록**********//
                 System.out.print("이 름 : ");
@@ -360,12 +361,13 @@ public class User {
                 sc.nextLine();
                 return true;
             }
-            while (true) {
+            while(true) {
                 System.out.print("입력한 정보가 정확합니까? (Y/N)\n>> ");
                 String c = sc.nextLine().trim();
                 if (c.equals("Y")) {
                     User newnuser = new User(uname, uphonenum, "X", "X", false, "X");
                     System.out.println("비회원 로그인 성공!.\n");
+                    Main.FileLog(Main.date, uname, 5);
                     non_users.add(newnuser);
                     toCsv();
                     System.out.println("아무 키를 누르면 예약 메뉴로 이동합니다.");
@@ -374,10 +376,12 @@ public class User {
                     r.reservation_Menu();
                     login_success = true;
                     return login_success;
-                } else if (c.equals("N")) {
+                }
+                else if (c.equals("N")) {
                     login_success = false;
                     break;
-                } else {
+                }
+                else{
                     System.out.println("올바른 형식을 입력해주세요");
                 }
             }
@@ -387,7 +391,7 @@ public class User {
     }
 
     public void toCsv() {
-        try {
+        try{
             BufferedWriter writer = new BufferedWriter(new FileWriter(filename));
             for (User u : users) {
                 writer.write(u.getName() + "," + u.getPhoneNum() + "," + u.getId() + "," + u.getPassword() + "," + u.getNo_Show() + "," + u.getBan_Date() + "\n");
@@ -396,7 +400,7 @@ public class User {
                 writer.write(u.getName() + "," + u.getPhoneNum() + "," + u.getId() + "," + u.getPassword() + "," + u.getNo_Show() + "," + u.getBan_Date() + "\n");
             }
             writer.close();
-        } catch (IOException e) {
+        } catch(IOException e){
             e.printStackTrace();
         }
     }
@@ -404,28 +408,28 @@ public class User {
     public void fromCsv() {
         BufferedReader br;
 
-        try (FileReader fileReader = new FileReader(filename)) {
+        try(FileReader fileReader = new FileReader(filename)){
             br = Files.newBufferedReader(Paths.get(filename));
             String line = "";
 
-            while ((line = br.readLine()) != null) {
-                if (line.isEmpty()) {
+            while((line = br.readLine()) != null){
+                if(line.isEmpty()){
                     break;
                 }
                 String[] array = line.split(",");
                 User user = new User(array[0], array[1], array[2], array[3], Boolean.parseBoolean(array[4]), array[5]);
                 if (!array[2].equals("X")) {
                     users.add(user);
-                } else {
+                }else{
                     non_users.add(user);
                 }
             }
             fileReader.close();
-        } catch (FileNotFoundException e) {
+        }catch(FileNotFoundException e){
             e.printStackTrace();
             System.out.println("회원 정보 파일이 없습니다.\n프로그램을 종료합니다.");
             System.exit(0);
-        } catch (Exception e) {
+        }catch(Exception e){
             e.printStackTrace();
             System.out.println("회원 정보 파일이 없습니다.\n프로그램을 종료합니다.");
             System.exit(0);

@@ -18,7 +18,6 @@ public class RoomInfo {
     public RoomInfo() {
     }
 
-
     public RoomInfo(User user) {
         this.user = user;
     }
@@ -36,7 +35,6 @@ public class RoomInfo {
 
     ArrayList<RoomInfo> rooms = new ArrayList<RoomInfo>();
     final String filename = "src/KU_hotel/RoomInfo.csv";
-
 
     public String getcheckIn() {
         return checkIn;
