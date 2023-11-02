@@ -1,14 +1,19 @@
 package KU_hotel;
 
 import java.io.File;
+import java.text.DateFormat;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.Date;
 import java.util.Scanner;
 
 import static KU_hotel.Main.FileLog;
 import static KU_hotel.Main.date;
 
 public class Manager {
-    //
+//
     ArrayList<RoomInfo> rooms = new ArrayList<RoomInfo>();
     RoomInfo manager = new RoomInfo();
     Scanner sc = new Scanner(System.in);
@@ -85,9 +90,14 @@ public class Manager {
         }
         while (true) {
             try {
-                System.out.println("처리하고자 하는 예약 내역을 입력하세요.");
+                System.out.println("처리하고자 하는 예약 내역을 입력하세요. q 입력 시 관리자 메뉴로 돌아갑니다");
                 System.out.print(">> ");
-                int i = Integer.parseInt(sc.nextLine().trim());
+                String input=sc.nextLine().trim();
+                if(input.equals("q")){
+                    System.out.println();
+                    return;
+                }
+                int i = Integer.parseInt(input);
 
                 edit_roomInfo(temprooms.get(i - 1).getroomNum());
                 return;
@@ -139,7 +149,7 @@ public class Manager {
                 System.out.println("예약이 승인되었습니다.");
                 FileLog(date, manager.rooms.get(roomidx).getuserName(), 1, "","","",0,0);
                 return;
-            } else if (c.equals("X")) {
+            } else if (c.equals("N")) {
                 System.out.println("예약이 보류되었습니다.");
                 return;
             } else {
@@ -269,8 +279,18 @@ public class Manager {
                 tempuser.get(index).setNo_Show(true);
                 String ban_date = "";
                 for (int m = 0; m < rooms.size(); m++) {
-                    if (tempuser.get(index).getPhoneNum().equals(rooms.get(m).getPhoneNum())) {
-                        ban_date = String.valueOf(Integer.parseInt(rooms.get(m).getcheckOut()) + 7);
+                    if (tempuser.get(index).getPhoneNum().equals(rooms.get(m).getPhoneNum())) { //노쇼처리 날짜 계산
+                        DateFormat dateFormat = new SimpleDateFormat("yyyyMMdd");
+                        Date date = null;
+                        try{
+                            date = dateFormat.parse(rooms.get(m).getcheckOut());
+                        }catch(ParseException e){
+                            e.printStackTrace();
+                        }
+                        Calendar cal = Calendar.getInstance();
+                        cal.setTime(date);;
+                        cal.add(Calendar.DATE, 7);
+                        ban_date = dateFormat.format(cal.getTime());
                     }
                 }
                 tempuser.get(index).setBan_Date(ban_date);
